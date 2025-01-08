@@ -1,0 +1,9 @@
+# 数据集路径
+train: /home/hammer/YOLO_training_data/watercup/images/train
+val: /home/hammer/YOLO_training_data/watercup/images/val
+
+# 类别数量
+nc: 1  # 类别数
+
+# 类别名称
+names: ['watercup']

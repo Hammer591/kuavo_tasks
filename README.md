@@ -78,7 +78,7 @@
 ## 问题 3：自动切换步态任务中遇到的问题
 ### 解决：
 - 通过 `legged_robot_sqp.launch` 文件内容定位到开启步态控制终端的可执行文件，再根据其内容定位到发布消息的可执行程序 `GaitKeyboardPublisher.cpp`，通过阅读代码内容和关联查找确定步态消息发布的话题 `/humanoid_mpc_mode_schedule` 和向该话题发布的消息格式，最后编写脚本根据输入直接向该话题发布消息即可。
-- 期间遇到成功向 `/humanoid_mpc_mode_schedule` 话题发送步态信息并被接收，但仿真无反应，不进行步态切换的问题。通过 `rostopic list` 查看发现 `/humanoid_mpc_mode_schedule` 话题正常开启，通过 `echo` 监控该话题发现消息被话题正常接收说明消息发布正常；通过查看 `legged_robot_sqp.launch` 主程序运行终端发现消息未被仿真接收，说明接收异常，通过 `gpt` 排查问题定位到接收消息的可执行文件 `GaitReceiver.cpp`，删除 `nodeHandle.subscribe()` 内 `this` 的 `udp` 部分后消息被仿真正常接收。
+- 期间遇到成功向 `/humanoid_mpc_mode_schedule` 话题发送步态信息并被接收，但仿真无反应，不进行步态切换的问题。通过 `rostopic list` 查看发现 `/humanoid_mpc_mode_schedule` 话题正常开启，通过 `echo` 监控该话题发现消息被话题正常接收说明消息发布正常；通过查看 `legged_robot_sqp.launch` 主程序运行终端发现消息未被仿真接收，说明接收异常，通过 `gpt` 排查问题定位到接收消息的可执行文件 `GaitReceiver.cpp`，删除 `nodeHandle.subscribe()` 内 `'this'` 后的 `udp` 部分后消息被仿真正常接收。
 
 ### 收获：
 - 学会了如何定位达成某一控制目标需要的对应话题以及如何正确的向该话题发布消息，学习了 `rostopic` 相关指令的使用，积累了排查问题的经验和方法。
